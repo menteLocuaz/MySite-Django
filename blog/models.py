@@ -3,6 +3,12 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+# esta clase sirve para el mager y solo publica los Punlisead
+class PublisheadManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
+
 class Post(models.Model):
     # añadimo nuestro propio satus
     class Status(models.TextChoices):
@@ -19,6 +25,9 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2, choices=Status.choices, default=Status.DRAFT
     )
+    # creamos un manger
+    objects = models.Manager()
+    published = PublisheadManager()
 
     # metemos los meta datos, lo organisamos en decenso y de abajo hacia arriba
     # indesamos para mejora en ceo y la busqueda
