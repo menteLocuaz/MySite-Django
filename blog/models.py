@@ -38,3 +38,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    # la url canonical que se comunica con url absoluta
+    def get_absolute_url(self):
+        return reverse("blog:post_detail", args=[self.id])
+    
